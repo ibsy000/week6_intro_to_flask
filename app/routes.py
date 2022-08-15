@@ -7,7 +7,8 @@ def index():
         'username': 'brians',
         'email': 'brians@codingtemple.com'
     }
-    return render_template('index.html', user=user_info)
+    colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
+    return render_template('index.html', user=user_info, colors=colors)
 
 @app.route('/test')
 def test():
