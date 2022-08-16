@@ -1,5 +1,6 @@
 from app import app
 from flask import render_template
+from app.forms import SignUpForm
 
 @app.route('/')
 def index():   # also an endpoint
@@ -12,4 +13,5 @@ def index():   # also an endpoint
 
 @app.route('/signup')
 def signup():   # also an endpoint
-    return render_template('signup.html')
+    form = SignUpForm() # instantiate SignUpForm class
+    return render_template('signup.html', form=form)
