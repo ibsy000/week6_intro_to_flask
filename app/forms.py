@@ -16,3 +16,9 @@ class PostForm(FlaskForm):
     title = StringField('Title', validators=[InputRequired()])
     body = StringField('Body', validators=[InputRequired()])
     submit = SubmitField()
+
+
+class LoginForm(FlaskForm): # Create class that inherits from FlaskForm class
+    username = StringField('Username', validators=[InputRequired()])
+    password = PasswordField('Password', validators=[InputRequired()])
+    submit = SubmitField()
