@@ -1,0 +1,13 @@
+<!-- with means you're creating a variable you're using with everything until the endwith -->
+{% with messages = get_flashed_messages(with_categories=True) %} 
+<!-- get_flashed_messages returns a list, adding second category parameter creates tuples -->
+    {% if messages %} <!-- if list is not empty -->
+        {% for category, message in messages %} 
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                     <!-- category will be our color (warning, primary, alert, etc) -->
+                <strong>{{ message }}</strong> 
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}

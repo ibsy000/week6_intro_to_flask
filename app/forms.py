@@ -8,5 +8,5 @@ class SignUpForm(FlaskForm): # Create class that inherits from FlaskForm class
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     confirm_pass = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
-#   class attribute   field       label     validate form not submitted with empty data, and equalto str(password)
+#   class attribute   field       label     validate form not submitted with empty data, and equalto label 'password'
     submit = SubmitField()
