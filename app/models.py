@@ -9,6 +9,9 @@ class User(db.Model):
     username = db.Column(db.String(50), nullable=False, unique=True)
     password = db.Column(db.String(256), nullable=False)
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow) # Coordinated Universal Time (always save it to this time when storing, and convert it later on front end)
+    posts = db.relationship('Post', backref='author', lazy='dynamic')
+    # this creates relationship between the many table that has the foreign key
+    # db.relationship('Method', backref='name', always lazy)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -19,3 +22,23 @@ class User(db.Model):
 
     def __repr__(self):
         return f"<User {self.id} | {self.username}>"
+
+
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(50), nullable=False)
+    body = db.Column(db.String(255), nullable=False)
+    date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    # lowercase 'user' because that is the name of the table, user.id because id is the column
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id')) # SQL Equivalent = FOREIGN KEY(user_id) REFERENCES user(id)
+
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        db.session.add(self)
+        db.session.commit()
+
+
+    def __repr__(self):
+        return f"<Post {self.id} | {self.title}"

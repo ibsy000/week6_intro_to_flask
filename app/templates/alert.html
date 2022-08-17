@@ -1,4 +1,4 @@
-<!-- with means you're creating a variable you're using with everything until the endwith -->
+<!-- with means you're creating a variable you're using with everything below until the endwith -->
 {% with messages = get_flashed_messages(with_categories=True) %} 
 <!-- get_flashed_messages returns a list, adding second category parameter creates tuples -->
     {% if messages %} <!-- if list is not empty -->
