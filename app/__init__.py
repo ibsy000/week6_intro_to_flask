@@ -2,6 +2,7 @@ from flask import Flask # Flask is a class
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_login import LoginManager
 
 
 app = Flask(__name__) # create first instance of class Flask, parameter will always
@@ -14,7 +15,8 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 # Create an instance of Migrate which will be our migration engine and pass in the app and SQLAlchemy instance
 migrate = Migrate(app, db)
-
+# Create an instance of the LoginManager to handle authentication
+login = LoginManager(app)
 
 
 from . import routes, models
