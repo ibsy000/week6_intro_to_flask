@@ -11,7 +11,7 @@ class User(db.Model):
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow) # Coordinated Universal Time (always save it to this time when storing, and convert it later on front end)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     # this creates relationship between the many table that has the foreign key
-    # db.relationship('Method', backref='name', always lazy)
+    # db.relationship('Method', backref='name'--references user_id, always lazy)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
