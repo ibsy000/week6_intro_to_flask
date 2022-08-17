@@ -41,8 +41,8 @@ def signup():   # also an endpoint
 
 
 @app.route('/create', methods=['GET', 'POST'])
-def create():
-    form = PostForm()
+def create(): # also an endpoint
+    form = PostForm() # instantiate PostForm class(module(model)) # so many ways to call it...
 
     if form.validate_on_submit():
         # Get the data from the form
