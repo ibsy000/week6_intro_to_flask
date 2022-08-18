@@ -120,3 +120,19 @@ def edit_post(post_id):
         return redirect(url_for('view_post', post_id=post_id))
 
     return render_template('edit_post.html', post=post_to_edit, form=form)
+
+
+
+@app.route('/posts/<post_id>/delete')
+@login_required
+def delete_post(post_id):
+    post_to_delete = Post.query.get_or_404(post_id)
+    if post_to_delete.author != current_user:
+        flash("You do not have persmission to delete this post", "danger")
+        return redirect(url_for('index'))
+    # delete the post
+    post_to_delete.delete()
+    flash(f"{post_to_delete.title} has been deleted", "info")
+    # post_to_edit is still in the scope and can be used after the delete() method
+    # is called, when this function is over then it will be deleted forever
+    return redirect(url_for('index'))

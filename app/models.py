@@ -65,3 +65,8 @@ class Post(db.Model):
             if key in {'title', 'body'}:
                 setattr(self, key, value)
         db.session.commit()
+
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
