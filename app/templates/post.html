@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ post.title }} {% endblock title %}
+
+{% block content %} 
+
+    <h2 class="text-center">{{ post }}</h2>
+    <h2 class="text-center">{{ post.author.username }}</h2>
+    <h6 class="text-center">{{ post.date_created.strftime('%A, %B %d, %Y') }}</h6>
+    <p class="text-center">{{ post.body }}</p>
+
+{% endblock content %}

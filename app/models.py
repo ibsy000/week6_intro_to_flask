@@ -57,4 +57,4 @@ class Post(db.Model):
 
 
     def __repr__(self):
-        return f"<Post {self.id} | {self.title}"
+        return f"<Post {self.id} | {self.title}>"
