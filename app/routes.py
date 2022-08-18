@@ -6,12 +6,8 @@ from flask_login import login_user, logout_user, login_required, current_user
 
 @app.route('/')
 def index():   # also an endpoint
-    user_info = {
-        'username': 'brians',
-        'email': 'brians@codingtemple.com'
-    }
-    colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
-    return render_template('index.html', user=user_info, colors=colors)
+    posts = Post.query.all()
+    return render_template('index.html', posts=posts)
 
 
 
@@ -54,7 +50,7 @@ def create(): # also an endpoint
         new_post = Post(title=title, body=body, user_id=current_user.id)
         # flash a message saying the post was created
         flash(f'{new_post.title} has been created.', 'secondary')
-        # Redirect back to home page
+        # Redirect back to home page0
         return redirect(url_for('index'))
 
     return render_template('createpost.html', form=form)
