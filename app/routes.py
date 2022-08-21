@@ -68,7 +68,7 @@ def login():
         # Query the user table for a user with the same username as the form
         user = User.query.filter_by(username=username).first()
 
-        # If the user exists and the passwrod is correct for that user
+        # If the user exists and the password is correct for that user
         if user is not None and user.check_password(password):
             # Log the user in with the login_user function from flask_login
             login_user(user)
