@@ -24,5 +24,8 @@ login.login_view = 'login' # Tells the login manager which endpoint to redirect
 login.login_message = 'You must be logged in to do that, you silly goose.'
 login.login_message_category = 'danger'
 
+from app.blueprints.api import api
+app.register_blueprint(api)
+
 
 from . import routes, models
