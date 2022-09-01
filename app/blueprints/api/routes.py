@@ -1,3 +1,4 @@
+import json
 from . import api
 from flask import jsonify, request # request is a variable that is representing the latest request
 from app.models import Post, User
@@ -54,7 +55,7 @@ def get_user(id):
 # Create route to create a new user and send POST request to add to our data
 @ api.route('/users', methods=["POST"])
 def create_user():
-    if not request.is_json:
+    if not request.is_json: # one of the request properties is .is_json
         return jsonify({'error': 'Your request content-type must be application/json'}), 400
 
     data = request.json
@@ -66,6 +67,11 @@ def create_user():
     email = data.get('email')
     username = data.get('username')
     password = data.get('password')
+
+    # Before we add the user to the database, check to see if there is already a user with username or email
+    existing_user = User.query.filter((User.email == email) | (User.username == username)).first()
+    if existing_user:
+        return jsonify({"error": "User with username and/or email already exists"}), 400
 
     # Create a new instance of a created user with the data
     new_user = User(email=email, username=username, password=password)
