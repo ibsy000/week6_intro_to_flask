@@ -41,7 +41,8 @@ def create_post():
     # Get fields from data dict
     title = data.get('title')
     body = data.get('body')
-    user_id = token_auth.current_user().id
+    user = token_auth.current_user()
+    user_id = user.id
 
     # Create new instance of post with data
     new_post = Post(title=title, body=body, user_id=user_id)
