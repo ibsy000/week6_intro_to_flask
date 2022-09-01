@@ -1,7 +1,10 @@
+import base64
+import os
 from app import db, login
-from datetime import datetime
+from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+
 
 
 class User(db.Model, UserMixin):
@@ -13,6 +16,8 @@ class User(db.Model, UserMixin):
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     # this creates relationship between the many table that has the foreign key
     # db.relationship('Method', backref='name'--references user.id, always lazy)
+    token = db.Column(db.String(32), index=True, unique=True)
+    token_expiration = db.Column(db.DateTime)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -41,6 +46,21 @@ class User(db.Model, UserMixin):
             "date_created": self.date_created,
             "posts": [p.to_dict() for p in self.posts.all()]
         }
+
+
+    def get_token(self, expires_in=300): # seconds
+        now = datetime.utcnow()
+        if self.token and self.token_expiration > now + timedelta(seconds=60):
+            return self.token
+        self.token = base64.b64encode(os.urandom(24)).decode('utf-8')
+        self.token_expiration = now + timedelta(seconds=expires_in)
+        db.session.commit() 
+        return self.token
+
+
+    def revoke_toke(self):
+        self.token_expiration = datetime.utcnow() - timedelta(seconds=1)
+        db.session.commit()
 
 
 
