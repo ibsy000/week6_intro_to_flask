@@ -1,12 +1,14 @@
-import json
 from . import api
+from .auth import basic_auth, token_auth
 from flask import jsonify, request # request is a variable that is representing the latest request
 from app.models import Post, User
 
-@api.route('/')
-def index():
-    names = ['Brian', 'Tatyana', 'Nate', 'Sam']
-    return jsonify(names)
+@api.route('/token')
+@basic_auth.login_required
+def get_token():
+    user = basic_auth.current_user()
+    token = user.get_token()
+    return jsonify({'token': token, 'token_expiration': user.token_expiration})
 
 
 @api.route('/posts', methods=["GET"]) # get request
@@ -23,13 +25,14 @@ def get_post(post_id):
 
 
 @api.route('/posts', methods=["POST"]) # post request
+@token_auth.login_required
 def create_post():
     if not request.is_json:
         return jsonify({'error': 'Your request content-type must be application/json'}), 400
     # get the data from the request body
     data = request.json
     print(data, type(data))
-    for field in ['title', 'body', 'user_id']:
+    for field in ['title', 'body']:
         if field not in data:
             # if field not in request body, respond with a 400 error
             return jsonify({'error': f'{field} must be in request body'}), 400
@@ -38,7 +41,7 @@ def create_post():
     # Get fields from data dict
     title = data.get('title')
     body = data.get('body')
-    user_id = data.get('user_id')
+    user_id = token_auth.current_user().id
 
     # Create new instance of post with data
     new_post = Post(title=title, body=body, user_id=user_id)
