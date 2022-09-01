@@ -47,12 +47,12 @@ def create_post():
 # Create route to grab specified user's data ('email', 'id', 'password', 'username', 'date_created', 'id')
 @api.route('/users/<id>', methods=["GET"])
 def get_user(id):
-    user = User.query.get_or_404(id)
+    user = User.query.get_or_404(id) # the .get() method refers to primary key
     return jsonify(user.to_dict())
 
 
 # Create route to create a new user and send POST request to add to our data
-@ api.route('/users/', methods=["POST"])
+@ api.route('/users', methods=["POST"])
 def create_user():
     if not request.is_json:
         return jsonify({'error': 'Your request content-type must be application/json'}), 400
